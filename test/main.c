@@ -119,9 +119,13 @@ int	main(void)
 	test_ft_atoi_base_int("    \t\f\r\n\v3g4", 16);
 	test_ft_atoi_base_int("++++-++++-++++42", 10);
 	test_ft_atoi_base("++++-++++-++++42", "0123456789");
-	test_ft_atoi_base("++++-++++-++++42", "12");
-	test_ft_atoi_base("++++-++++-++++42", "122");
+	test_ft_atoi_base("     ++++-++++-++++1", "01\n");
+	test_ft_atoi_base("     ++++-++++-++++1", "01");
+	test_ft_atoi_base("++++-++++-++++42", "01");
+	test_ft_atoi_base("++++-++++-++++42", "0122");
 	test_ft_atoi_base("++++-++++-++++42", "");
-	test_ft_atoi_base("++++-++++-++++42", "1");
+	test_ft_atoi_base("++++-++++-++++ff", "0123456789abcdef");
+	test_ft_atoi_base("\n\t\r\f\v     ++++-++++-++++ff", "0123456789abcdef");
+	test_ft_atoi_base("\n\t\r\f\v     ++++++++-++++ff", "0123456789abcdef");
 	return (0);
 }
