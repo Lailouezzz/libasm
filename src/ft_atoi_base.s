@@ -45,8 +45,6 @@ global ft_atoi_base
 		xor rax, rax
 		ret
 
-section .text
-
 	ft_atoi_base_check_dup:
 		movzx rsi, BYTE [rdi]
 		cmp rsi, 0

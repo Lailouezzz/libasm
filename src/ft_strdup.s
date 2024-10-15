@@ -28,4 +28,3 @@ global ft_strdup
 		call ft_strcpy
 		leave
 		ret
-
