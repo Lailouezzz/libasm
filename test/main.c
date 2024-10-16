@@ -89,52 +89,52 @@ void	test_ft_strdup(const char *str)
 	free(tmp);
 }
 
-int	int_cmp(int *a, int *b)
+int	int_cmp(int a, int b)
 {
-	return (*a - *b);
+	return (a - b);
 }
 
-int	int_lower(long long a, long long b)
+int	int_lower(int a, int b)
 {
 	return (a > b);
 }
 
-int	int_odd(int *a, int *b)
+int	int_odd(int a, int b)
 {
-	printf("test");
-	return (*a % *b);
+	return (a % b);
+}
+
+void	print_list(t_list *l)
+{
+	while (l != NULL)
+	{
+		printf("%d\n", (int)l->data);
+		l = l->next;
+	}
 }
 
 void	test_ft_list(void)
 {
-	int	tab[100];
 	t_list	*l = NULL;
 
 	ft_list_sort(&l, int_cmp);
 	if (ft_list_size(l) != 0)
 		printf("ft_list_size error\n");
-	for (int i = 0; i < sizeof(tab) / sizeof(*tab); ++i)
+	for (int i = 0; i < 10; ++i)
 	{
-		tab[i] = rand() % 10;
-		ft_list_push_back(&l, tab+i);
+		ft_list_push_back(&l, rand() % 5);
 		if (ft_list_size(l) != i + 1)
 			printf("ft_list_size != %d error\n", i + 1);
 	}
+	printf("unsorted list\n");
+	print_list(l);
 	ft_list_sort(&l, int_cmp);
-	t_list *ll = l;
-	while (ll != NULL)
-	{
-		printf("%d\n", *(int *)ll->data);
-		ll = ll->next;
-	}
+	printf("sorted list\n");
+	print_list(l);
 	int nb = 2;
 	ft_list_remove_if(&l, &nb, int_odd, NULL);
-	ll = l;
-	while (ll != NULL)
-	{
-		printf("after %d\n", *(int *)ll->data);
-		ll = ll->next;
-	}
+	printf("removed odd\n");
+	print_list(l);
 	// free list
 	while (l != NULL)
 	{
@@ -153,12 +153,8 @@ void	test_ft_list(void)
 	ft_list_push_front(&l, (void*)-3);
 	ft_list_push_front(&l, (void*)7);
 	ft_list_push_front(&l, (void*)0);
-	ll = l;
-	while (ll != NULL)
-	{
-		printf("%d\n", (int)ll->data);
-		ll = ll->next;
-	}
+	printf("before sort\n");
+	print_list(l);
 	ft_list_sort(&l, int_lower);
 	// free list
 	while (l != NULL)
