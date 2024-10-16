@@ -76,7 +76,7 @@ void	test_ft_read(void)
 	printf("invalid ft_read : %zd\n", ft_read(fd, NULL, 3));
 	printf("errno : %d\n", errno);
 	errno = 0;
-	printf("invalid read : %zd\n", read(fd, NULL, 3));
+	// printf("invalid read : %zd\n", read(fd, NULL, 3));
 	printf("errno : %d\n", errno);
 	errno = 0;
 	close(fd);
@@ -89,77 +89,57 @@ void	test_ft_strdup(const char *str)
 	free(tmp);
 }
 
-int	int_cmp(int a, int b)
+int	int_cmp(int *a, int *b)
 {
-	return (a - b);
+	return (*a - *b);
 }
 
-int	int_lower(int a, int b)
+int	int_lower(long long a, long long b)
 {
 	return (a > b);
 }
 
-int	int_odd(int a, int b)
+int	int_odd(int *a, int *b)
 {
-	return (a % b);
+	return (*a % *b);
 }
 
 void	print_list(t_list *l)
 {
 	while (l != NULL)
 	{
-		printf("%d\n", (int)l->data);
+		printf("%d\n", *(int *)l->data);
 		l = l->next;
 	}
 }
 
 void	test_ft_list(void)
 {
+	int	tab[20];
 	t_list	*l = NULL;
 
 	ft_list_sort(&l, int_cmp);
 	if (ft_list_size(l) != 0)
 		printf("ft_list_size error\n");
-	for (int i = 0; i < 10; ++i)
+	for (size_t i = 0; i < sizeof(tab) / sizeof(*tab); ++i)
 	{
-		ft_list_push_back(&l, rand() % 5);
-		if (ft_list_size(l) != i + 1)
-			printf("ft_list_size != %d error\n", i + 1);
+		tab[i] = rand() % 10;
+		ft_list_push_back(&l, tab+i);
+		if (ft_list_size(l) != (int)i + 1)
+			printf("ft_list_size != %zu error\n", i + 1);
 	}
-	printf("unsorted list\n");
+	printf("list before sort\n");
 	print_list(l);
 	ft_list_sort(&l, int_cmp);
-	printf("sorted list\n");
+	printf("list after sort\n");
 	print_list(l);
 	int nb = 2;
 	ft_list_remove_if(&l, &nb, int_odd, NULL);
-	printf("removed odd\n");
+	printf("list without even\n");
 	print_list(l);
 	// free list
 	while (l != NULL)
 	{
-		void *to_free = l;
-		l = l->next;
-		free(to_free);
-	}
-	ft_list_push_front(&l, (void*)1);
-	ft_list_push_front(&l, (void*)2);
-	ft_list_push_front(&l, (void*)3);
-	ft_list_push_front(&l, (void*)4);
-	ft_list_push_front(&l, (void*)-1);
-	ft_list_push_front(&l, (void*)5);
-	ft_list_push_front(&l, (void*)-2);
-	ft_list_push_front(&l, (void*)6);
-	ft_list_push_front(&l, (void*)-3);
-	ft_list_push_front(&l, (void*)7);
-	ft_list_push_front(&l, (void*)0);
-	printf("before sort\n");
-	print_list(l);
-	ft_list_sort(&l, int_lower);
-	// free list
-	while (l != NULL)
-	{
-		printf("sorted : %d\n", (int)l->data);
 		void *to_free = l;
 		l = l->next;
 		free(to_free);

@@ -10,6 +10,7 @@ t_list	*ft_create_elem(void *data)
 		return (NULL);
 	l->data = data;
 	l->next = NULL;
+	return (l);
 }
 
 t_list	*ft_create_elem_int(int nb)
