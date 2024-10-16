@@ -25,9 +25,9 @@ section .text
 		leave
 		ret
 
-global ft_list_push_front
+global ft_list_push_back
 
-	ft_list_push_front:
+	ft_list_push_back:
 		push rbp
 		mov rbp, rsp
 		sub rsp, 0x20 ; Alloc 8*4 bytes on stack
@@ -44,9 +44,14 @@ global ft_list_push_front
 		mov QWORD [rdx], rax
 		jmp list_pf_end
 	list_pf_insert:
-		mov rcx, QWORD [rdx]
-		mov QWORD [rdx], rax
-		mov QWORD [rax+pnext], rcx
+		mov rdx, QWORD [rdx] ; rdx == *begin_list
+	list_pf_insert_check:
+		cmp QWORD [rdx+pnext], 0x0
+		je list_pf_can_insert
+		mov rdx, QWORD [rdx+pnext]
+		jmp list_pf_insert_check
+	list_pf_can_insert:
+		mov QWORD [rdx+pnext], rax
 	list_pf_badalloc:
 	list_pf_end:
 		leave

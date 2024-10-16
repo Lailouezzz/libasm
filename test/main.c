@@ -94,6 +94,11 @@ int	int_cmp(int *a, int *b)
 	return (*a - *b);
 }
 
+int	int_lower(long long a, long long b)
+{
+	return (a > b);
+}
+
 int	int_odd(int *a, int *b)
 {
 	printf("test");
@@ -111,7 +116,7 @@ void	test_ft_list(void)
 	for (int i = 0; i < sizeof(tab) / sizeof(*tab); ++i)
 	{
 		tab[i] = rand() % 10;
-		ft_list_push_front(&l, tab+i);
+		ft_list_push_back(&l, tab+i);
 		if (ft_list_size(l) != i + 1)
 			printf("ft_list_size != %d error\n", i + 1);
 	}
@@ -133,6 +138,32 @@ void	test_ft_list(void)
 	// free list
 	while (l != NULL)
 	{
+		void *to_free = l;
+		l = l->next;
+		free(to_free);
+	}
+	ft_list_push_front(&l, (void*)1);
+	ft_list_push_front(&l, (void*)2);
+	ft_list_push_front(&l, (void*)3);
+	ft_list_push_front(&l, (void*)4);
+	ft_list_push_front(&l, (void*)-1);
+	ft_list_push_front(&l, (void*)5);
+	ft_list_push_front(&l, (void*)-2);
+	ft_list_push_front(&l, (void*)6);
+	ft_list_push_front(&l, (void*)-3);
+	ft_list_push_front(&l, (void*)7);
+	ft_list_push_front(&l, (void*)0);
+	ll = l;
+	while (ll != NULL)
+	{
+		printf("%d\n", (int)ll->data);
+		ll = ll->next;
+	}
+	ft_list_sort(&l, int_lower);
+	// free list
+	while (l != NULL)
+	{
+		printf("sorted : %d\n", (int)l->data);
 		void *to_free = l;
 		l = l->next;
 		free(to_free);

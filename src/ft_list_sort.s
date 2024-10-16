@@ -22,15 +22,15 @@ global ft_list_sort
 	ft_list_sort_loop:
 		cmp QWORD [r8+pnext], 0x0 ; l->next == NULL
 		je ft_list_sort_end
-		mov rsi, QWORD [r8+pdata] ; load l->data
+		mov rdi, QWORD [r8+pdata] ; load l->data
 		mov rdx, QWORD [r8+pnext] ; load l->next
-		mov rdi, QWORD [rdx+pdata] ; load l->next->data
+		mov rsi, QWORD [rdx+pdata] ; load l->next->data
 		mov rdx, QWORD [rbp-0x10] ; load cmp
 		push r8
 		call rdx
 		pop r8
-		test eax, eax
-		js ft_list_sort_swap ; eax <= 0
+		cmp eax, 0x0
+		jg ft_list_sort_swap ; eax > 0
 		mov r8, QWORD [r8+pnext]
 		jmp ft_list_sort_loop
 	ft_list_sort_swap:

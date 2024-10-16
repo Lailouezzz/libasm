@@ -3,3 +3,4 @@ libasm.a
 libasm_test
 Makefile.cfg
 build
+libasmTester
