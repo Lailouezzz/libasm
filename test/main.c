@@ -5,6 +5,8 @@
 #include <errno.h>
 #include <string.h>
 
+#include "list.h"
+
 extern size_t	ft_strlen(const char *str);
 extern char		*ft_strcpy(char *dst, const char *src);
 extern int		ft_strcmp(const char *str1, const char *str2);
@@ -54,6 +56,8 @@ void	test_ft_read(void)
 	int	fd = open("test/testfile", O_RDONLY);
 	
 	ft_write(STDOUT_FILENO, buf, read(fd, buf, 4));
+	close(fd);
+	fd = open("test/testfile", O_RDONLY);
 	ft_write(STDOUT_FILENO, buf, ft_read(fd, buf, 4));
 	printf("\ninvalid fd ft_read : %zd\n", ft_read(-1, buf, 3));
 	printf("errno : %d\n", errno);
@@ -83,6 +87,11 @@ void	test_ft_strdup(const char *str)
 	char	*tmp = ft_strdup(str);
 	printf("ft_strdup(\"%s\") == %s\n", str, tmp);
 	free(tmp);
+}
+
+void	test_ft_list_push_front(void)
+{
+
 }
 
 int	main(void)
