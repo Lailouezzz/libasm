@@ -89,9 +89,54 @@ void	test_ft_strdup(const char *str)
 	free(tmp);
 }
 
-void	test_ft_list_push_front(void)
+int	int_cmp(int *a, int *b)
 {
+	return (*a - *b);
+}
 
+int	int_odd(int *a, int *b)
+{
+	printf("test");
+	return (*a % *b);
+}
+
+void	test_ft_list(void)
+{
+	int	tab[100];
+	t_list	*l = NULL;
+
+	ft_list_sort(&l, int_cmp);
+	if (ft_list_size(l) != 0)
+		printf("ft_list_size error\n");
+	for (int i = 0; i < sizeof(tab) / sizeof(*tab); ++i)
+	{
+		tab[i] = rand() % 10;
+		ft_list_push_front(&l, tab+i);
+		if (ft_list_size(l) != i + 1)
+			printf("ft_list_size != %d error\n", i + 1);
+	}
+	ft_list_sort(&l, int_cmp);
+	t_list *ll = l;
+	while (ll != NULL)
+	{
+		printf("%d\n", *(int *)ll->data);
+		ll = ll->next;
+	}
+	int nb = 2;
+	ft_list_remove_if(&l, &nb, int_odd, NULL);
+	ll = l;
+	while (ll != NULL)
+	{
+		printf("after %d\n", *(int *)ll->data);
+		ll = ll->next;
+	}
+	// free list
+	while (l != NULL)
+	{
+		void *to_free = l;
+		l = l->next;
+		free(to_free);
+	}
 }
 
 int	main(void)
@@ -136,5 +181,6 @@ int	main(void)
 	test_ft_atoi_base("++++-++++-++++ff", "0123456789abcdef");
 	test_ft_atoi_base("\n\t\r\f\v     ++++-++++-++++ff", "0123456789abcdef");
 	test_ft_atoi_base("\n\t\r\f\v     ++++++++-++++ff", "0123456789abcdef");
+	test_ft_list();
 	return (0);
 }

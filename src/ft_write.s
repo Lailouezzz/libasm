@@ -14,7 +14,9 @@ global ft_write
 		ret
 	ft_write_error:
 		mov edx, eax
+		sub rsp, 0x8
 		call __errno_location WRT ..plt
+		add rsp, 0x8
 		neg edx
 		mov DWORD [rax], edx
 		mov rax, -1

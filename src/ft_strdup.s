@@ -11,9 +11,8 @@ global ft_strdup
 	ft_strdup:
 		push rbp
 		mov rbp, rsp
-		sub rsp, 0x8
+		sub rsp, 0x10 ; 8 trailing bytes for alignment
 		mov QWORD [rbp-0x8], rdi ; src
-
 		call ft_strlen
 		inc rax
 		mov rdi, rax

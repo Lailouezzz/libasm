@@ -3,8 +3,8 @@ bits 64
 extern malloc
 
 struc t_list
-	pdata:	resd 1
-	pnext:	resd 1
+	pdata:	resq 1
+	pnext:	resq 1
 endstruc
 
 section .text
@@ -12,10 +12,10 @@ section .text
 	ft_create_elem:
 		push rbp
 		mov rbp, rsp
-		sub rsp, 0x8 ; Alloc 8 bytes on stack
+		sub rsp, 0x10 ; Alloc 16 bytes on stack
 		mov QWORD [rbp-0x8], rdi ; void *data
 		mov rdi, t_list_size
-		call malloc
+		call malloc WRT ..plt
 		cmp rax, 0x0
 		je elem_badalloc
 		mov rdi, QWORD [rbp-0x8] ; restore void *data
@@ -30,7 +30,7 @@ global ft_list_push_front
 	ft_list_push_front:
 		push rbp
 		mov rbp, rsp
-		sub rsp, 0x18 ; Alloc 8*3 bytes on stack
+		sub rsp, 0x20 ; Alloc 8*4 bytes on stack
 		mov QWORD [rbp-0x8], rdi ; t_list **begin_list
 		mov QWORD [rbp-0x10], rsi ; void *data
 		mov rdi, rsi
